@@ -25,17 +25,22 @@ public class ProjectService {
   private ProjectRepository projectRepository;
 
   public Project saveOrUpdateProject(Project project) {
-
     try {
       project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
       return projectRepository.save(project);
     } catch (Exception e) {
       throw new ProjectIdentifierException("Project Identifier '"
           + project.getProjectIdentifier().toUpperCase() + "' already exists!");
-
     }
-
-
+  }
+  
+  public Project findProjectByProjectIdentifier(String projectIdentifier) {
+    Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+    if (project == null) {
+      throw new ProjectIdentifierException("Project Identifier '"
+          + projectIdentifier + "' already exists!"); 
+    }
+    return project;
   }
 
 }
