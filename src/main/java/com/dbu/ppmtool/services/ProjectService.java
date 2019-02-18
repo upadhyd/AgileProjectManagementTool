@@ -38,7 +38,7 @@ public class ProjectService {
     Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
     if (project == null) {
       throw new ProjectIdentifierException("Project Identifier '"
-          + projectIdentifier + "' already exists!"); 
+          + projectIdentifier + "' does not exist !!!"); 
     }
     return project;
   }
