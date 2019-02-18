@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: PPMToolFullStack
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Dhaivat
+Implementation-Vendor-Id: com.dbu.ppmTool
+Build-Jdk: 1.8.0_191
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/PPMToolFullStack
+Created-By: Maven Integration for Eclipse
+
