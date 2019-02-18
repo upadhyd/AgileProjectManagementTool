@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.dbu.ppmtool.domain.Project;
 import com.dbu.ppmtool.services.ProjectService;
+import com.dbu.ppmtool.services.ValidationErrorMapService;
 
 @RestController
 @RequestMapping("/api/project")
@@ -22,6 +23,9 @@ public class ProjectController {
   
   @Autowired
   private ProjectService projectService;
+  
+  @Autowired
+  private ValidationErrorMapService validationErrorMapService;
   
   /**
    * What is Binding Result?
@@ -33,16 +37,8 @@ public class ProjectController {
    */
   @PostMapping("")
   public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
-    
-    if (result.hasErrors()) {
-      Map<String, String> errorMap = new HashMap<>();
-      
-      for(FieldError e: result.getFieldErrors()) {
-        errorMap.put(e.getField(), e.getDefaultMessage());
-      }
-      
-      return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
-    }
+    ResponseEntity<?> errorMap = validationErrorMapService.validationErrorMap(result);
+    if(errorMap != null) return errorMap;
     Project newProject = projectService.saveOrUpdateProject(project);
     return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
   }
