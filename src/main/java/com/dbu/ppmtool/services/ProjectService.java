@@ -1,6 +1,7 @@
 package com.dbu.ppmtool.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import com.dbu.ppmtool.domain.Project;
@@ -38,7 +39,7 @@ public class ProjectService {
     Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
     if (project == null) {
       throw new ProjectIdentifierException("Project Identifier '"
-          + projectIdentifier + "' does not exist !!!"); 
+          + projectIdentifier.toUpperCase() + "' does not exist !!!"); 
     }
     return project;
   }
@@ -47,4 +48,13 @@ public class ProjectService {
     return projectRepository.findAll();
   }
 
+  public void deleteProjectByIdentifier(String projectIdentifier) {
+    Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+    if(project == null) {
+      throw new ProjectIdentifierException("Cannot Delete Project with ID '"
+          + projectIdentifier.toUpperCase() + "'. This project does not exist !!!"); 
+    }
+    
+    projectRepository.delete(project);
+  }
 }
